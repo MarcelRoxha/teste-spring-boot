@@ -2,7 +2,7 @@ package model;
 
 public class ContaEntradaModel {
 	
-	   private String idendificador;
+	   	private String idendificador;
 	    private String codigoC;
 	    private String codigoD;
 	    private String descricao;   

@@ -4,7 +4,7 @@ public class ContaEntradaLancamentosFuturosModel {
 
 	
 	
-	   private String identificador;
+	    private String identificador;
 	    private String nomeContaEntradaLancamentoFuturos;
 	    private String emailClienteQueSugeriu;
 	    private String identificadorCliente;

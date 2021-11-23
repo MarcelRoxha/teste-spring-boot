@@ -167,10 +167,11 @@ public class ServicosService {
         String dataCreated = dataFormat.format(data);
 
 
-
-
-        this.razaoSocial = clienteModel.getRazaoSocial();
-        this.CNPJ = clienteModel.getCnpj();
+		/*
+		 * 
+		 * this.razaoSocial = clienteModel.getRazaoSocial(); this.CNPJ =
+		 * clienteModel.getCnpj();
+		 */
         this.Usuario = clienteModel.getUsuariocliente();
         this.emailCliente = clienteModel.getEmailCliente();
         this.telefone = clienteModel.getTelefone();
@@ -194,29 +195,31 @@ public class ServicosService {
                 ClienteModel clienteModelSalva = new ClienteModel();
                 //ATRIBUINDO AS VARIAVEIS PARA OS ATRIBUTOS
                 clienteModelSalva.setIdentificador(this.CNPJ);
-                clienteModelSalva.setRazaoSocial(this.razaoSocial);
-                clienteModelSalva.setEmailCliente(this.emailCliente);
-                clienteModelSalva.setCnpj(this.CNPJ);
+				/*
+				 * clienteModelSalva.setRazaoSocial(this.razaoSocial);
+				 * clienteModelSalva.setEmailCliente(this.emailCliente);
+				 * clienteModelSalva.setCnpj(this.CNPJ);
+				 */
                 clienteModelSalva.setUsuariocliente(this.Usuario);
                 clienteModelSalva.setTelefone(this.telefone);
                 clienteModelSalva.setCelular(this.celular);
                 clienteModelSalva.setObs("Cliente Criado");
-                clienteModelSalva.setCreated(dataCreated);
-                clienteModelSalva.setModified("Cliente sem modificação");
+               // clienteModelSalva.setCreated(dataCreated);
+                //.setModified("Cliente sem modificação");
 
                 //INSTANCIANDO UM NOVO MAP PARA SER ADICIONADO AO FIREBASE - FIRESTORE
                 Map<String , Object> clienteSalva = new HashMap<>();
                 //PREPARANDO AS VARIAVEIS PARA SEREM ADICIONADO AO FIREBASE
-                clienteSalva.put("identificador" , clienteModelSalva.getCnpj());
-                clienteSalva.put("razaoSocial" , clienteModelSalva.getRazaoSocial());
-                clienteSalva.put("CNPJ" , clienteModelSalva.getCnpj());
+              //  clienteSalva.put("identificador" , clienteModelSalva.getCnpj());
+              //  clienteSalva.put("razaoSocial" , clienteModelSalva.getRazaoSocial());
+              //  clienteSalva.put("CNPJ" , clienteModelSalva.getCnpj());
                 clienteSalva.put("Usuario" , clienteModelSalva.getUsuariocliente());
                 clienteSalva.put("emailCliente" , clienteModelSalva.getEmailCliente());
                 clienteSalva.put("telefone" , clienteModelSalva.getTelefone());
                 clienteSalva.put("celular" , clienteModelSalva.getCelular());
                 clienteSalva.put("OBS" , clienteModelSalva.getObs());
-                clienteSalva.put("created" , clienteModelSalva.getCreated());
-                clienteSalva.put("modified" , clienteModelSalva.getModified());
+               // clienteSalva.put("created" , clienteModelSalva.getCreated());
+               // clienteSalva.put("modified" , clienteModelSalva.getModified());
                 //ADICIONADO O LANÇAMENTO QUE ESTÁ SENDO FEITO NO FIREBASE
 
                 Firestore firestoreClienteSalva = FirestoreClient.getFirestore();
@@ -257,7 +260,7 @@ public class ServicosService {
         Firestore firestoreCliente = FirestoreClient.getFirestore();
         DocumentReference documentReferenceCliente;
         documentReferenceCliente = firestoreCliente.collection(NOME_COLLECTION_CLIENTE)
-                .document(clienteModel.getCnpj());
+				.document(/* clienteModel.getCnpj() */);
 
         ApiFuture<DocumentSnapshot> usuarioLancaEntradaMesReferencia = documentReferenceCliente.get();
         DocumentSnapshot documentSnapshotUsuarioMesReferencia = usuarioLancaEntradaMesReferencia.get();
@@ -269,23 +272,23 @@ public class ServicosService {
 
 
         clienteModelRecuperadoFirebase.setEmailCliente(clienteModelFirebase.getEmailCliente());
-        clienteModelRecuperadoFirebase.setCnpj(clienteModelFirebase.getCnpj());
+       // clienteModelRecuperadoFirebase.setCnpj(clienteModelFirebase.getCnpj());
         clienteModelRecuperadoFirebase.setUsuariocliente(clienteModelFirebase.getUsuariocliente());
         clienteModelRecuperadoFirebase.setCelular(clienteModelFirebase.getCelular());
         clienteModelRecuperadoFirebase.setTelefone(clienteModelFirebase.getTelefone());
-        clienteModelRecuperadoFirebase.setRazaoSocial(clienteModelFirebase.getRazaoSocial());
+        //clienteModelRecuperadoFirebase.setRazaoSocial(clienteModelFirebase.getRazaoSocial());
         clienteModelRecuperadoFirebase.setObs(clienteModelFirebase.getObs());
         clienteModelRecuperadoFirebase.setIdentificador(clienteModelFirebase.getIdentificador());
-        clienteModelRecuperadoFirebase.setCreated(clienteModelFirebase.getCreated());
-        clienteModelRecuperadoFirebase.setModified(dataModified);
+       // clienteModelRecuperadoFirebase.setCreated(clienteModelFirebase.getCreated());
+       // clienteModelRecuperadoFirebase.setModified(dataModified);
 
         adicionarClienteAlterado(clienteModelFirebase, dataModified);
 
 
 
         this.identificadorCliente = clienteModel.getIdentificador();
-        this.razaoSocial = clienteModel.getRazaoSocial();
-        this.CNPJ = clienteModel.getCnpj();
+       // this.razaoSocial = clienteModel.getRazaoSocial();
+       // this.CNPJ = clienteModel.getCnpj();
         this.Usuario = clienteModel.getUsuariocliente();
         this.emailCliente = clienteModel.getEmailCliente();
         this.telefone = clienteModel.getTelefone();
@@ -296,15 +299,15 @@ public class ServicosService {
         ClienteModel clienteModelAtualizado = new ClienteModel();
 
         clienteModelAtualizado.setEmailCliente(this.emailCliente);
-        clienteModelAtualizado.setCnpj(this.CNPJ);
+       // clienteModelAtualizado.setCnpj(this.CNPJ);
         clienteModelAtualizado.setUsuariocliente(this.Usuario);
         clienteModelAtualizado.setCelular(this.celular);
         clienteModelAtualizado.setTelefone(this.telefone);
-        clienteModelAtualizado.setRazaoSocial(this.razaoSocial);
+      //  clienteModelAtualizado.setRazaoSocial(this.razaoSocial);
         clienteModelAtualizado.setObs("Cliente editado no dia: " + dataModified);
         clienteModelAtualizado.setIdentificador(clienteModelFirebase.getIdentificador());
-        clienteModelAtualizado.setCreated(clienteModelFirebase.getCreated());
-        clienteModelAtualizado.setModified(dataModified);
+       // clienteModelAtualizado.setCreated(clienteModelFirebase.getCreated());
+       // clienteModelAtualizado.setModified(dataModified);
 
         documentReferenceCliente.set(clienteModelAtualizado);
 
@@ -405,13 +408,13 @@ this.mensagemReturn = "Cliente alterado";
                 this.clienteJason.setIdentificador(usuarioRecuperadoFirebase.getIdentificador());
                 this.clienteJason.setUsuariocliente(usuarioRecuperadoFirebase.getUsuariocliente());
                 this.clienteJason.setEmailCliente(usuarioRecuperadoFirebase.getEmailCliente());
-                this.clienteJason.setCnpj(usuarioRecuperadoFirebase.getCnpj());
-                this.clienteJason.setCreated(usuarioRecuperadoFirebase.getCreated());
-                this.clienteJason.setModified(usuarioRecuperadoFirebase.getModified());
+              //  this.clienteJason.setCnpj(usuarioRecuperadoFirebase.getCnpj());
+              //  this.clienteJason.setCreated(usuarioRecuperadoFirebase.getCreated());
+               // this.clienteJason.setModified(usuarioRecuperadoFirebase.getModified());
                 this.clienteJason.setObs(usuarioRecuperadoFirebase.getObs());
                 this.clienteJason.setCelular(usuarioRecuperadoFirebase.getCelular());
                 this.clienteJason.setTelefone(usuarioRecuperadoFirebase.getTelefone());
-                this.clienteJason.setRazaoSocial(usuarioRecuperadoFirebase.getRazaoSocial());
+               // this.clienteJason.setRazaoSocial(usuarioRecuperadoFirebase.getRazaoSocial());
 
             }
 
@@ -428,14 +431,17 @@ this.mensagemReturn = "Cliente alterado";
 
         Map<String, Object> clienteEditado = new HashMap<>();
         clienteEditado.put("identificador" , clienteModelRecuperadoFirebase.getIdentificador());
-        clienteEditado.put("razaoSocial" , clienteModelRecuperadoFirebase.getRazaoSocial());
-        clienteEditado.put("cnpj" , clienteModelRecuperadoFirebase.getCnpj());
+		/*
+		 * clienteEditado.put("razaoSocial" ,
+		 * clienteModelRecuperadoFirebase.getRazaoSocial()); clienteEditado.put("cnpj" ,
+		 * clienteModelRecuperadoFirebase.getCnpj());
+		 */
         clienteEditado.put("usuariocliente" , clienteModelRecuperadoFirebase.getUsuariocliente());
         clienteEditado.put("emailCliente" , clienteModelRecuperadoFirebase.getEmailCliente());
         clienteEditado.put("telefone" , clienteModelRecuperadoFirebase.getTelefone());
         clienteEditado.put("celular" , clienteModelRecuperadoFirebase.getCelular());
         clienteEditado.put("obs" , clienteModelRecuperadoFirebase.getObs());
-        clienteEditado.put("created" , clienteModelRecuperadoFirebase.getCreated());
+      //  clienteEditado.put("created" , clienteModelRecuperadoFirebase.getCreated());
         clienteEditado.put("modified" , dataModificacao);
 
 

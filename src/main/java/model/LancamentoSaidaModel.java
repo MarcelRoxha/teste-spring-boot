@@ -2,7 +2,7 @@ package model;
 
 public class LancamentoSaidaModel {
 	
-	  private String identificador;
+	    private String identificador;
 	    private String emailUserLancandoSaida;
 	    private String nomeUserLancandoSaida;
 	    private String nomeLancamentoSaida;
