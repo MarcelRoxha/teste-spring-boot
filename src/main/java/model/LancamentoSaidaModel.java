@@ -3,12 +3,15 @@ package model;
 public class LancamentoSaidaModel {
 	
 	    private String identificador;
+	    private String identificadorEmpresa;
 	    private String emailUserLancandoSaida;
 	    private String nomeUserLancandoSaida;
-	    private String nomeLancamentoSaida;
+	    private String fornecedor;
 	    private String dataLancamentoSaida;
 	    private String valorLancamentoSaida;
-	    private String detalhesLancamentoSaida;
+	    private String servico;
+	    private String codigoCredito;
+	    private String codigoDebito;
 	    private String createdLancamentoSaida;
 	    private String modifieldLancamentoSaida;
 	    
@@ -16,6 +19,41 @@ public class LancamentoSaidaModel {
 		public LancamentoSaidaModel() {
 			super();
 		}
+		
+		
+		
+		public String getIdentificadorEmpresa() {
+			return identificadorEmpresa;
+		}
+
+
+
+		public void setIdentificadorEmpresa(String identificadorEmpresa) {
+			this.identificadorEmpresa = identificadorEmpresa;
+		}
+
+
+
+		public String getCodigoCredito() {
+			return codigoCredito;
+		}
+
+
+		public void setCodigoCredito(String codigoCredito) {
+			this.codigoCredito = codigoCredito;
+		}
+
+
+		public String getCodigoDebito() {
+			return codigoDebito;
+		}
+
+
+		public void setCodigoDebito(String codigoDebito) {
+			this.codigoDebito = codigoDebito;
+		}
+
+
 		public String getIdentificador() {
 			return identificador;
 		}
@@ -34,12 +72,31 @@ public class LancamentoSaidaModel {
 		public void setNomeUserLancandoSaida(String nomeUserLancandoSaida) {
 			this.nomeUserLancandoSaida = nomeUserLancandoSaida;
 		}
-		public String getNomeLancamentoSaida() {
-			return nomeLancamentoSaida;
+		
+		public String getFornecedor() {
+			return fornecedor;
 		}
-		public void setNomeLancamentoSaida(String nomeLancamentoSaida) {
-			this.nomeLancamentoSaida = nomeLancamentoSaida;
+
+
+
+		public void setFornecedor(String fornecedor) {
+			this.fornecedor = fornecedor;
 		}
+
+
+
+		public String getServico() {
+			return servico;
+		}
+
+
+
+		public void setServico(String servico) {
+			this.servico = servico;
+		}
+
+
+
 		public String getDataLancamentoSaida() {
 			return dataLancamentoSaida;
 		}
@@ -52,12 +109,7 @@ public class LancamentoSaidaModel {
 		public void setValorLancamentoSaida(String valorLancamentoSaida) {
 			this.valorLancamentoSaida = valorLancamentoSaida;
 		}
-		public String getDetalhesLancamentoSaida() {
-			return detalhesLancamentoSaida;
-		}
-		public void setDetalhesLancamentoSaida(String detalhesLancamentoSaida) {
-			this.detalhesLancamentoSaida = detalhesLancamentoSaida;
-		}
+		
 		public String getCreatedLancamentoSaida() {
 			return createdLancamentoSaida;
 		}

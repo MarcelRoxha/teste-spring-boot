@@ -12,11 +12,22 @@ public class ClienteModel {
     private String obs;
     private int quantidadeEmpresaCadastradas;
     private String status;
+    private String codigoConta;
     
     public ClienteModel() {
     	
     }
 	
+    
+	public String getCodigoConta() {
+		return codigoConta;
+	}
+
+
+	public void setCodigoConta(String codigoConta) {
+		this.codigoConta = codigoConta;
+	}
+
 	public String getIdentificador() {
 		return identificador;
 	}

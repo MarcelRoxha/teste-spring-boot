@@ -6,10 +6,28 @@ public class AcumuladoMensal {
 	private double valotTotalCreditoEmpresa;
 	private int quantidadeTotalLancamentoDebito;
 	private int quantidadeTotalLancamentoCredito;
-	private double saldo;	
+	private double saldoCaixa;	
+	private double saldoBanco;
+
 	
 	public AcumuladoMensal() {
 		super();
+	}
+	
+	public double getSaldoCaixa() {
+		return saldoCaixa;
+	}
+
+	public void setSaldoCaixa(double saldoCaixa) {
+		this.saldoCaixa = saldoCaixa;
+	}
+
+	public double getSaldoBanco() {
+		return saldoBanco;
+	}
+
+	public void setSaldoBanco(double saldoBanco) {
+		this.saldoBanco = saldoBanco;
 	}
 	
 	public double getValorTotalDebitoEmpresa() {
@@ -36,12 +54,7 @@ public class AcumuladoMensal {
 	public void setQuantidadeTotalLancamentoCredito(int quantidadeTotalLancamentoCredito) {
 		this.quantidadeTotalLancamentoCredito = quantidadeTotalLancamentoCredito;
 	}
-	public double getSaldo() {
-		return saldo;
-	}
-	public void setSaldo(double saldo) {
-		this.saldo = saldo;
-	}
+
 	
 	
 	

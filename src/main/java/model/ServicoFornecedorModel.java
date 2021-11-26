@@ -1,6 +1,6 @@
 package model;
 
-public class ServicoFornecedor {
+public class ServicoFornecedorModel {
 	
 	
 	private String identificadorFornecedor;
@@ -8,7 +8,7 @@ public class ServicoFornecedor {
 	private String codigoContaCredito;
 	private String descricaoServico;
 	
-	public ServicoFornecedor() {
+	public ServicoFornecedorModel() {
 		super();
 	}
 	

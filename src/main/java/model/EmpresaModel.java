@@ -11,7 +11,8 @@ public class EmpresaModel {
 	private String complemento;
 	private String razaoSocial;
 	private String nomeEmpresa;
-	
+	private String saldoCaixa;
+	private String saldoBanco;
 	
 	
 	public EmpresaModel() {
@@ -19,6 +20,31 @@ public class EmpresaModel {
 	}
 	
 	
+	
+	public String getSaldoCaixa() {
+		return saldoCaixa;
+	}
+
+
+
+	public void setSaldoCaixa(String saldoCaixa) {
+		this.saldoCaixa = saldoCaixa;
+	}
+
+
+
+	public String getSaldoBanco() {
+		return saldoBanco;
+	}
+
+
+
+	public void setSaldoBanco(String saldoBanco) {
+		this.saldoBanco = saldoBanco;
+	}
+
+
+
 	public String getIdentificadorCliente() {
 		return identificadorCliente;
 	}

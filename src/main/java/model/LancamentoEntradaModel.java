@@ -3,6 +3,8 @@ package model;
 public class LancamentoEntradaModel {
 
     private String identificador;
+    private String identificadorCliente;
+    private String identificadorEmpresa;
     private String emailUserLancandoEntrada;
     private String nomeUserLancandoEntrada;
     private String nomeLancamentoEntrada;
@@ -16,6 +18,30 @@ public class LancamentoEntradaModel {
 		super();
 	}
 	
+	
+	
+	public String getIdentificadorCliente() {
+		return identificadorCliente;
+	}
+
+
+
+	public void setIdentificadorCliente(String identificadorCliente) {
+		this.identificadorCliente = identificadorCliente;
+	}
+
+
+
+	public String getIdentificadorEmpresa() {
+		return identificadorEmpresa;
+	}
+
+
+	public void setIdentificadorEmpresa(String identificadorEmpresa) {
+		this.identificadorEmpresa = identificadorEmpresa;
+	}
+
+
 	public String getIdentificador() {
 		return identificador;
 	}
