@@ -1086,10 +1086,10 @@ this.mensagemReturn = "Cliente alterado";
                 //VARIAVEIS LOCAIS RECEBENDO OS VALORES DO LANCAMENTO EFETUADO PELO USUARIO EM QUESTÃO
                 this.identificador = lancamentoEntradaModel.getIdentificador();
                 this.nomeUserLancandoEntrada = lancamentoEntradaModel.getNomeUserLancandoSaida();
-                this.nomeLancamentoEntrada = lancamentoEntradaModel.getNomeLancamentoSaida();
+               // this.nomeLancamentoEntrada = lancamentoEntradaModel.getNomeLancamentoSaida();
                 this.dataLancamentoEntrada = lancamentoEntradaModel.getDataLancamentoSaida();
                 this.valorLancamentoEntrada = lancamentoEntradaModel.getValorLancamentoSaida();
-                this.detalhesLancamentoEntrada = lancamentoEntradaModel.getDetalhesLancamentoSaida();
+                //this.detalhesLancamentoEntrada = lancamentoEntradaModel.getDetalhesLancamentoSaida();
 
 
                 //VALORES RECUPERADOS DO USUARIO PARA PREPARAÇÃO DAS DEVIDAS ATUALIZAÇÕES:
@@ -1124,10 +1124,10 @@ this.mensagemReturn = "Cliente alterado";
                 lancamentoEntradaModelSalva.setIdentificador(this.identificador);
                 lancamentoEntradaModelSalva.setEmailUserLancandoSaida( this.emailUserLancandoSaida);
                 lancamentoEntradaModelSalva.setNomeUserLancandoSaida(this.nomeUserLancandoEntrada);
-                lancamentoEntradaModelSalva.setNomeLancamentoSaida(this.nomeLancamentoEntrada);
+               // lancamentoEntradaModelSalva.setNomeLancamentoSaida(this.nomeLancamentoEntrada);
                 lancamentoEntradaModelSalva.setDataLancamentoSaida(dataFormatadaLancamentoEntrada);
                 lancamentoEntradaModelSalva.setValorLancamentoSaida(this.valorLancamentoEntrada);
-                lancamentoEntradaModelSalva.setDetalhesLancamentoSaida(this.detalhesLancamentoEntrada);
+                //lancamentoEntradaModelSalva.setDetalhesLancamentoSaida(this.detalhesLancamentoEntrada);
 
                 this.lancamentoSaidaModelJason = lancamentoEntradaModelSalva;
                 //CHAMANDO O METODO PARA ATUALIZAR
@@ -1143,10 +1143,10 @@ this.mensagemReturn = "Cliente alterado";
                  */
 
                 this.nomeUserLancandoEntrada = lancamentoEntradaModel.getNomeUserLancandoSaida();
-                this.nomeLancamentoEntrada = lancamentoEntradaModel.getNomeLancamentoSaida();
+               // this.nomeLancamentoEntrada = lancamentoEntradaModel.getNomeLancamentoSaida();
                 this.dataLancamentoEntrada = lancamentoEntradaModel.getDataLancamentoSaida();
                 this.valorLancamentoEntrada = lancamentoEntradaModel.getValorLancamentoSaida();
-                this.detalhesLancamentoEntrada = lancamentoEntradaModel.getDetalhesLancamentoSaida();
+               // this.detalhesLancamentoEntrada = lancamentoEntradaModel.getDetalhesLancamentoSaida();
 
                 //CHAMANDO O METODO PARA ADICIONAR O LANCAMENTO QUE ESTÁ SENDO FEITO PELO USUARIO PELA 1º VEZ
                 adicionaLancamentoSaidaUsuario(this.emailUserLancandoEntrada,
@@ -1311,10 +1311,10 @@ this.mensagemReturn = "Cliente alterado";
         lancamentoEntradaModelSalva.setIdentificador("1");
         lancamentoEntradaModelSalva.setEmailUserLancandoSaida(emailUserLancandoEntrada);
         lancamentoEntradaModelSalva.setNomeUserLancandoSaida(nomeUserLancandoEntrada);
-        lancamentoEntradaModelSalva.setNomeLancamentoSaida(nomeLancamentoEntrada);
+       // lancamentoEntradaModelSalva.setNomeLancamentoSaida(nomeLancamentoEntrada);
         lancamentoEntradaModelSalva.setDataLancamentoSaida(dataFormatadaLancamentoEntrada);
         lancamentoEntradaModelSalva.setValorLancamentoSaida(valorLancamentoEntrada);
-        lancamentoEntradaModelSalva.setDetalhesLancamentoSaida(detalhesLancamentoEntrada);
+       // lancamentoEntradaModelSalva.setDetalhesLancamentoSaida(detalhesLancamentoEntrada);
         lancamentoEntradaModelSalva.setCreatedLancamentoSaida(dataCreated);
         lancamentoEntradaModelSalva.setModifieldLancamentoSaida("Nenhuma Modificação");
 
@@ -1324,10 +1324,10 @@ this.mensagemReturn = "Cliente alterado";
         LancamentoEntrada.put("identificador" , "1");
         LancamentoEntrada.put("emailUserLancandoSaida" , lancamentoEntradaModelSalva.getEmailUserLancandoSaida());
         LancamentoEntrada.put("nomeUserLancandoSaida" , lancamentoEntradaModelSalva.getNomeUserLancandoSaida());
-        LancamentoEntrada.put("nomeLancamentoSaida" , lancamentoEntradaModelSalva.getNomeLancamentoSaida());
+      //  LancamentoEntrada.put("nomeLancamentoSaida" , lancamentoEntradaModelSalva.getNomeLancamentoSaida());
         LancamentoEntrada.put("dataLancamentoSaida" , lancamentoEntradaModelSalva.getDataLancamentoSaida());
         LancamentoEntrada.put("valorLancamentoSaida" , lancamentoEntradaModelSalva.getValorLancamentoSaida());
-        LancamentoEntrada.put("detalhesLancamentoSaida" , lancamentoEntradaModelSalva.getDetalhesLancamentoSaida());
+       // LancamentoEntrada.put("detalhesLancamentoSaida" , lancamentoEntradaModelSalva.getDetalhesLancamentoSaida());
         LancamentoEntrada.put("createdLancamentoSaida" , lancamentoEntradaModelSalva.getCreatedLancamentoSaida());
         LancamentoEntrada.put("modifieldLancamentoSaida" , lancamentoEntradaModelSalva.getModifieldLancamentoSaida());
 
@@ -1505,10 +1505,10 @@ this.mensagemReturn = "Cliente alterado";
         lancamentoSalvo.setIdentificador(this.novoId);
         lancamentoSalvo.setEmailUserLancandoEntrada(lancamentoEntradaModelSalva.getEmailUserLancandoSaida());
         lancamentoSalvo.setNomeUserLancandoEntrada(lancamentoEntradaModelSalva.getNomeUserLancandoSaida());
-        lancamentoSalvo.setNomeLancamentoEntrada(lancamentoEntradaModelSalva.getNomeLancamentoSaida());
-        lancamentoSalvo.setDetalhesLancamentoEntrada(lancamentoEntradaModelSalva.getDetalhesLancamentoSaida());
+       // lancamentoSalvo.setNomeLancamentoEntrada(lancamentoEntradaModelSalva.getNomeLancamentoSaida());
+       // lancamentoSalvo.setDetalhesLancamentoEntrada(lancamentoEntradaModelSalva.getDetalhesLancamentoSaida());
         lancamentoSalvo.setValorLancamentoEntrada(lancamentoEntradaModelSalva.getValorLancamentoSaida());
-        lancamentoSalvo.setDataLancamentoEntrada(lancamentoEntradaModelSalva.getDetalhesLancamentoSaida());
+        //lancamentoSalvo.setDataLancamentoEntrada(lancamentoEntradaModelSalva.getDetalhesLancamentoSaida());
         lancamentoSalvo.setCreatedLancamentoEntrada(dataCreated);
         lancamentoSalvo.setModifieldLancamentoEntrada("Nenhuma Modificação");
 
