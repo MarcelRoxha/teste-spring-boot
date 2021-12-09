@@ -1,50 +1,58 @@
 package model;
 
-public class Fornecedor {
+public class EmpresaClienteAdmin {
 	
-	
-	private String identificador;
-	private String nomeFornecedor;
+	private String identificadorCliente;
+	private String nomeCliente;
 	private String cnpj;
 	private String endereco;
+	private String email;
 	private String cep;
 	private String numero;
 	private String cidade;
 	private String bairro;
 	private String estado;
 	private String complemento;
-	private String contaBancaria;
-	private String formadePagamento;
+	private String razaoSocial;
+	private String nomeEmpresa;
+	private String created;
+	private String modified;
 	private String telefone;
 	private String celular;
 	private String whatsapp;
-	private String email;
-	private int quantidadeServicos;	
-
-    
-	public Fornecedor() {
+	private String saldoCaixa;
+	private String saldoBanco;
+		
+	
+	
+	public EmpresaClienteAdmin() {
 		super();
 	}
 
 
-	public String getIdentificador() {
-		return identificador;
+
+	public String getIdentificadorCliente() {
+		return identificadorCliente;
 	}
 
 
-	public void setIdentificador(String identificador) {
-		this.identificador = identificador;
+
+	public void setIdentificadorCliente(String identificadorCliente) {
+		this.identificadorCliente = identificadorCliente;
 	}
 
 
-	public String getNomeFornecedor() {
-		return nomeFornecedor;
+
+	public String getNomeCliente() {
+		return nomeCliente;
 	}
 
 
-	public void setNomeFornecedor(String nomeFornecedor) {
-		this.nomeFornecedor = nomeFornecedor;
+
+	public void setNomeCliente(String nomeCliente) {
+		this.nomeCliente = nomeCliente;
 	}
+
 
 
 	public String getCnpj() {
@@ -52,9 +60,11 @@ public class Fornecedor {
 	}
 
 
+
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
 	}
+
 
 
 	public String getEndereco() {
@@ -62,119 +72,11 @@ public class Fornecedor {
 	}
 
 
+
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
 
-
-	public String getCep() {
-		return cep;
-	}
-
-
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-
-
-	public String getNumero() {
-		return numero;
-	}
-
-
-	public void setNumero(String numero) {
-		this.numero = numero;
-	}
-
-
-	public String getCidade() {
-		return cidade;
-	}
-
-
-	public void setCidade(String cidade) {
-		this.cidade = cidade;
-	}
-
-
-	public String getBairro() {
-		return bairro;
-	}
-
-
-	public void setBairro(String bairro) {
-		this.bairro = bairro;
-	}
-
-
-	public String getEstado() {
-		return estado;
-	}
-
-
-	public void setEstado(String estado) {
-		this.estado = estado;
-	}
-
-
-	public String getComplemento() {
-		return complemento;
-	}
-
-
-	public void setComplemento(String complemento) {
-		this.complemento = complemento;
-	}
-
-
-	public String getContaBancaria() {
-		return contaBancaria;
-	}
-
-
-	public void setContaBancaria(String contaBancaria) {
-		this.contaBancaria = contaBancaria;
-	}
-
-
-	public String getFormadePagamento() {
-		return formadePagamento;
-	}
-
-
-	public void setFormadePagamento(String formadePagamento) {
-		this.formadePagamento = formadePagamento;
-	}
-
-
-	public String getTelefone() {
-		return telefone;
-	}
-
-
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-
-
-	public String getCelular() {
-		return celular;
-	}
-
-
-	public void setCelular(String celular) {
-		this.celular = celular;
-	}
-
-
-	public String getWhatsapp() {
-		return whatsapp;
-	}
-
-
-	public void setWhatsapp(String whatsapp) {
-		this.whatsapp = whatsapp;
-	}
 
 
 	public String getEmail() {
@@ -182,19 +84,196 @@ public class Fornecedor {
 	}
 
 
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
 
 
-	public int getQuantidadeServicos() {
-		return quantidadeServicos;
+
+	public String getCep() {
+		return cep;
 	}
 
 
-	public void setQuantidadeServicos(int quantidadeServicos) {
-		this.quantidadeServicos = quantidadeServicos;
+
+	public void setCep(String cep) {
+		this.cep = cep;
 	}
+
+
+
+	public String getNumero() {
+		return numero;
+	}
+
+
+
+	public void setNumero(String numero) {
+		this.numero = numero;
+	}
+
+
+
+	public String getCidade() {
+		return cidade;
+	}
+
+
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
+
+
+
+	public String getBairro() {
+		return bairro;
+	}
+
+
+
+	public void setBairro(String bairro) {
+		this.bairro = bairro;
+	}
+
+
+
+	public String getEstado() {
+		return estado;
+	}
+
+
+
+	public void setEstado(String estado) {
+		this.estado = estado;
+	}
+
+
+
+	public String getComplemento() {
+		return complemento;
+	}
+
+
+
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+
+
+
+	public String getRazaoSocial() {
+		return razaoSocial;
+	}
+
+
+
+	public void setRazaoSocial(String razaoSocial) {
+		this.razaoSocial = razaoSocial;
+	}
+
+
+
+	public String getNomeEmpresa() {
+		return nomeEmpresa;
+	}
+
+
+
+	public void setNomeEmpresa(String nomeEmpresa) {
+		this.nomeEmpresa = nomeEmpresa;
+	}
+
+
+
+	public String getCreated() {
+		return created;
+	}
+
+
+
+	public void setCreated(String created) {
+		this.created = created;
+	}
+
+
+
+	public String getModified() {
+		return modified;
+	}
+
+
+
+	public void setModified(String modified) {
+		this.modified = modified;
+	}
+
+
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+
+
+	public String getCelular() {
+		return celular;
+	}
+
+
+
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+
+
+
+	public String getWhatsapp() {
+		return whatsapp;
+	}
+
+
+
+	public void setWhatsapp(String whatsapp) {
+		this.whatsapp = whatsapp;
+	}
+
+
+
+	public String getSaldoCaixa() {
+		return saldoCaixa;
+	}
+
+
+
+	public void setSaldoCaixa(String saldoCaixa) {
+		this.saldoCaixa = saldoCaixa;
+	}
+
+
+
+	public String getSaldoBanco() {
+		return saldoBanco;
+	}
+
+
+
+	public void setSaldoBanco(String saldoBanco) {
+		this.saldoBanco = saldoBanco;
+	}
+	
+	
+	
+	
+	
+	
 	
 
 }

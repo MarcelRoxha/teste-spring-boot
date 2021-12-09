@@ -1,6 +1,7 @@
 package com.example.demo;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,8 +27,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.api.client.util.Data;
 import com.google.api.core.ApiFuture;
 import com.google.auth.oauth2.GoogleCredentials;
+import java.util.Date;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
@@ -37,6 +40,7 @@ import com.google.cloud.firestore.FirestoreException;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.FirebaseOptions;
 import com.google.firebase.cloud.FirestoreClient;
@@ -45,12 +49,18 @@ import config.FirebaseInicializer;
 import entity.Product;
 import firebase.ServicosService;
 import model.AcumuladoMensal;
+import model.ClienteCadastradoModel;
 import model.ClienteModel;
+import model.ContaCadastrada;
+import model.ContaEntradaCaixa;
 import model.ContaEntradaModel;
+import model.EmpresaCliente;
+import model.EmpresaClienteAdmin;
 import model.EmpresaModel;
 import model.Fornecedor;
 import model.LancamentoEntradaModel;
 import model.LancamentoSaidaModel;
+import model.RecuperaInformacaoContaCaixaEmpresa;
 import model.ServicoFornecedorModel;
 import model.UserModel;
 import service.ProductService;
@@ -95,11 +105,11 @@ public class TesteSpringBootNudeApplication {
 	public List<Product> getProductsAllDetails() throws ExecutionException, InterruptedException {
 
 		List<Product> resultado = new ArrayList<>();
-
+		
 		Firestore firestore = FirestoreClient.getFirestore();
-		CollectionReference collectionReference = firestore.collection("produtcts");
+		CollectionReference collectionReference = firestore.collection("products");
 
-		ApiFuture<QuerySnapshot> query = collectionReference.get();
+		ApiFuture<QuerySnapshot> query = collectionReference.whereEqualTo("name", "SONY").get();
 		List<QueryDocumentSnapshot> documentSnapshots = query.get().getDocuments();
 		for (QueryDocumentSnapshot doc : documentSnapshots) {
 			Product productmodel = doc.toObject(Product.class);
@@ -870,11 +880,63 @@ public class TesteSpringBootNudeApplication {
 		return contaEntradaModelJason;
 
 	}
+	
+	@PostMapping("/cadastrar-conta")
+	public int cadastrarConta(@RequestBody ContaCadastrada contaEntradaModel)
+			throws ExecutionException, InterruptedException {
+		
+		
+		
+		int verificaCadastro = 0;
+		
+		
+		String codigoConta = contaEntradaModel.getCodigoConta();
+		String historico = contaEntradaModel.getHistorico();
+		String descricao = contaEntradaModel.getDescricao();
+		
+		
+		if (codigoConta != null && historico != null && descricao != null) {
+			Firestore firestoreContaEntra = FirestoreClient.getFirestore();
+			DocumentReference documentReferenceCliente;
+			documentReferenceCliente = firestoreContaEntra.collection("CONTAS-CADASTRADAS").document(codigoConta);
+
+			ApiFuture<DocumentSnapshot> documentSnapshotApiFutureCliente = documentReferenceCliente.get();
+			DocumentSnapshot documentSnapshotCliente = documentSnapshotApiFutureCliente.get();
+
+			if (documentSnapshotCliente.exists()) {
+				verificaCadastro = 1;
+			
+			} else {
+				ContaCadastrada contaCadastra = new ContaCadastrada();
+				contaCadastra.setCodigoConta(codigoConta);
+				contaCadastra.setDescricao(descricao);
+				contaCadastra.setHistorico(historico);
+				
+				Firestore firebaseCliente = FirestoreClient.getFirestore();
+				ApiFuture<WriteResult> documentsReference = firebaseCliente.collection("CONTAS-CADASTRADAS")
+						.document(contaCadastra.getCodigoConta()).set(contaCadastra);
+				 verificaCadastro = 2;
+
+			}
+
+		} else {
+			 verificaCadastro = 3;
+		}
+
+		/*
+		 * this.mensagemReturn = "Razao social: " + this.razaoSocial +"CNPJ: " +
+		 * this.CNPJ +"Usuario: " + this.Usuario + "email : " + this.emailCliente
+		 * +" telefone: " + this.telefone +" celular: " + this.celular +" OBS: " +
+		 * this.OBS;
+		 */
+		return verificaCadastro;
+
+	}
 
 	/* Recuperar Clientes */
 	@GetMapping("/recuperarClientes")
-	public List<ClienteModel> listaClientesCadastrados() throws ExecutionException, InterruptedException {
-		List<ClienteModel> resultadoClientesCadastrados = new ArrayList<>();
+	public List<ClienteCadastradoModel> listaClientesCadastrados() throws ExecutionException, InterruptedException {
+		List<ClienteCadastradoModel> resultadoClientesCadastrados = new ArrayList<>();
 
 		Firestore firestoreClientesCadastrados = FirestoreClient.getFirestore();
 		CollectionReference collectionReferenceClientesCadastrados = firestoreClientesCadastrados
@@ -883,7 +945,7 @@ public class TesteSpringBootNudeApplication {
 		ApiFuture<QuerySnapshot> query = collectionReferenceClientesCadastrados.get();
 		List<QueryDocumentSnapshot> documentSnapshots = query.get().getDocuments();
 		for (QueryDocumentSnapshot doc : documentSnapshots) {
-			ClienteModel clienteCadastrado = doc.toObject(ClienteModel.class);
+			ClienteCadastradoModel clienteCadastrado = doc.toObject(ClienteCadastradoModel.class);
 			resultadoClientesCadastrados.add(clienteCadastrado);
 		}
 		if (resultadoClientesCadastrados.size() == 0) {
@@ -893,6 +955,73 @@ public class TesteSpringBootNudeApplication {
 		}
 
 	}
+	
+	
+	
+	
+	
+	/* Recuperar Empresa Clientes */
+	@GetMapping("/recuperar-empresas-clientes-admin")
+	public List<EmpresaModel> listaEmpresaClientesAdmin() throws ExecutionException, InterruptedException {
+		
+		List<EmpresaModel> resultadoClientesCadastrados = new ArrayList<>();
+		List<String> listaReferenciaCliente = new ArrayList<>();
+		
+		Firestore firestoreClientesCadastrados = FirestoreClient.getFirestore();
+		CollectionReference collectionReferenceClientesCadastrados = firestoreClientesCadastrados
+				.collection("CLIENTES-CADASTRADOS");
+		
+
+		ApiFuture<QuerySnapshot> query = collectionReferenceClientesCadastrados.get();
+		List<QueryDocumentSnapshot> documentSnapshots = query.get().getDocuments();
+		for (QueryDocumentSnapshot doc : documentSnapshots) {
+			ClienteModel clienteCadastrado = doc.toObject(ClienteModel.class);
+			listaReferenciaCliente.add(clienteCadastrado.getCPF());			
+			
+			
+		}
+		
+		
+		
+		if(listaReferenciaCliente.size() > 0) {
+			
+			Firestore firestoreEmpresaCliente = FirestoreClient.getFirestore();
+			
+			
+			for(int i = 0; i<listaReferenciaCliente.size(); i++) {
+				
+				CollectionReference referenteciaClientesEmpresa = firestoreClientesCadastrados
+						.collection("CLIENTES-CADASTRADOS")
+						.document(listaReferenciaCliente.get(i))
+						.collection("EMPRESAS-CLIENTE");
+				
+
+				ApiFuture<QuerySnapshot> percorre = collectionReferenceClientesCadastrados.get();
+				List<QueryDocumentSnapshot> documentEmpresa = query.get().getDocuments();
+				for (QueryDocumentSnapshot doc : documentSnapshots) {
+					EmpresaModel empresasCliente = doc.toObject(EmpresaModel.class);
+					resultadoClientesCadastrados.add(empresasCliente);			
+					
+					
+				}
+					
+			}
+		}
+		
+		
+		
+		
+		
+		if (resultadoClientesCadastrados.size() == 0) {
+			return null;
+		} else {
+			return resultadoClientesCadastrados;
+		}
+
+	}
+	
+	
+	
 	
 	/*Recuperar servico forncedor selecionado*/
 	
@@ -921,6 +1050,68 @@ public class TesteSpringBootNudeApplication {
 
 		return servicosRecuperados;
 	}
+	
+	/*Recuperar Empresas Clientes*/
+	
+	@PostMapping("/recuperar-empresas-cliente")
+	public List<EmpresaCliente> recuperarEmpresasCliente(@RequestBody String idPassado)
+			throws ExecutionException, InterruptedException {
+		List<EmpresaCliente> empresasRecuperado = new ArrayList<>();
+		
+		String idrecuperado = idPassado;
+		//ServicoFornecedorModel servicoFornecedor = new ServicoFornecedorModel();
+
+		if (idrecuperado != null) {
+
+			Firestore firestore = FirestoreClient.getFirestore();
+			CollectionReference documentReferenceUsuario = 
+					firestore.collection("CLIENTES-CADASTRADOS")
+					.document(idrecuperado)
+					.collection("EMPRESAS-CLIENTE");
+
+			ApiFuture<QuerySnapshot> query = documentReferenceUsuario.get();
+			List<QueryDocumentSnapshot> documentSnapshots = query.get().getDocuments();
+			for (QueryDocumentSnapshot doc : documentSnapshots) {
+				EmpresaCliente contaEntradaCadastradaBanco = doc.toObject(EmpresaCliente.class);
+				empresasRecuperado.add(contaEntradaCadastradaBanco);
+			}
+		}
+
+		return empresasRecuperado;
+	}
+	
+	
+	
+/*Recuperar Conta caixa empresa*/
+	
+	@PostMapping("/recuperar-conta-caixa-empresa")
+	public ContaEntradaCaixa recuperarEmpresasCliente(@RequestBody RecuperaInformacaoContaCaixaEmpresa  recuperaInfoCaixaEmpresaCliente )
+			throws ExecutionException, InterruptedException {
+		ContaEntradaCaixa contaCaixaRecuperada = new ContaEntradaCaixa();
+		
+		Firestore firestore = FirestoreClient.getFirestore();
+		CollectionReference documentReferenceUsuario = 
+				firestore.collection("CLIENTES-CADASTRADOS")
+				.document(recuperaInfoCaixaEmpresaCliente.getIdentificadorCliente())
+				.collection("EMPRESAS-CLIENTE")
+				.document(recuperaInfoCaixaEmpresaCliente.getIdentificadorEmpresa())
+				.collection("CONTA-CAIXA");
+		
+		ApiFuture<QuerySnapshot> query = documentReferenceUsuario.get();
+		List<QueryDocumentSnapshot> documentSnapshots = query.get().getDocuments();
+		for (QueryDocumentSnapshot doc : documentSnapshots) {
+			
+			ContaEntradaCaixa contaEntradaCadastradaBanco = doc.toObject(ContaEntradaCaixa.class);
+			contaCaixaRecuperada.setHistorico(contaEntradaCadastradaBanco.getHistorico());
+			contaCaixaRecuperada.setCodigoContaCaixa(contaEntradaCadastradaBanco.getCodigoContaCaixa());
+			
+		}
+				
+		
+
+		return contaCaixaRecuperada;
+	}
+	
 
 	/* Recuperar Contas Entrada -> todas */
 
@@ -1031,11 +1222,11 @@ public class TesteSpringBootNudeApplication {
 	 * informações
 	 */
 	@PostMapping("/recuperarInformacoesCliente")
-	public ClienteModel informacoesUsuario(@RequestBody String idPassado)
+	public ClienteCadastradoModel informacoesUsuario(@RequestBody String idPassado)
 			throws ExecutionException, InterruptedException {
 
 		String idrecuperado = idPassado;
-		ClienteModel clienteRecuperado = new ClienteModel();
+		ClienteCadastradoModel clienteRecuperado = new ClienteCadastradoModel();
 		if (idPassado != null) {
 
 			Firestore firestore = FirestoreClient.getFirestore();
@@ -1049,18 +1240,32 @@ public class TesteSpringBootNudeApplication {
 
 			if (documentSnapshotInformacoesUserModel.exists()) {
 
-				ClienteModel usuarioRecuperadoFirebase = documentSnapshotInformacoesUserModel
-						.toObject(ClienteModel.class);
+				ClienteCadastradoModel usuarioRecuperadoFirebase = documentSnapshotInformacoesUserModel
+						.toObject(ClienteCadastradoModel.class);
 				clienteRecuperado.setIdentificador(usuarioRecuperadoFirebase.getIdentificador());
 				clienteRecuperado.setUsuariocliente(usuarioRecuperadoFirebase.getUsuariocliente());
+				clienteRecuperado.setNome(usuarioRecuperadoFirebase.getNome());
 				clienteRecuperado.setEmailCliente(usuarioRecuperadoFirebase.getEmailCliente());
-				clienteRecuperado.setCpf(usuarioRecuperadoFirebase.getCPF());
-				clienteRecuperado
-						.setQuantidadeEmpresaCadastradas(usuarioRecuperadoFirebase.getQuantidadeEmpresaCadastradas());
+				clienteRecuperado.setCpf(usuarioRecuperadoFirebase.getCpf());
+				clienteRecuperado.setQuantidadeEmpresaCadastradas(usuarioRecuperadoFirebase.getQuantidadeEmpresaCadastradas());
 				clienteRecuperado.setObs(usuarioRecuperadoFirebase.getObs());
 				clienteRecuperado.setCelular(usuarioRecuperadoFirebase.getCelular());
 				clienteRecuperado.setTelefone(usuarioRecuperadoFirebase.getTelefone());
-				clienteRecuperado.setNome(usuarioRecuperadoFirebase.getNome());
+				clienteRecuperado.setWhatsapp(usuarioRecuperadoFirebase.getWhatsapp());
+				clienteRecuperado.setEndereco(usuarioRecuperadoFirebase.getEndereco());
+				clienteRecuperado.setCep(usuarioRecuperadoFirebase.getCep());
+				clienteRecuperado.setComplemento(usuarioRecuperadoFirebase.getComplemento());
+				clienteRecuperado.setNumero(usuarioRecuperadoFirebase.getNumero());
+				clienteRecuperado.setEstado(usuarioRecuperadoFirebase.getEstado());
+				clienteRecuperado.setCidade(usuarioRecuperadoFirebase.getCidade());
+				clienteRecuperado.setBairro(usuarioRecuperadoFirebase.getBairro());
+				clienteRecuperado.setCreated(usuarioRecuperadoFirebase.getCreated());
+				clienteRecuperado.setModified(usuarioRecuperadoFirebase.getModified());
+				clienteRecuperado.setObs(usuarioRecuperadoFirebase.getObs());
+				clienteRecuperado.setStatus(usuarioRecuperadoFirebase.getStatus());
+				clienteRecuperado.setQuantidadeEmpresaCadastradas(usuarioRecuperadoFirebase.getQuantidadeEmpresaCadastradas());
+				
+				   
 
 			}
 
@@ -1070,48 +1275,75 @@ public class TesteSpringBootNudeApplication {
 	}
 
 	@PostMapping("/cadastrar-empresa-cliente")
-	public EmpresaModel cadastrarEmpresaCliente(@RequestBody EmpresaModel empresaCadastro)
+	public String cadastrarEmpresaCliente(@RequestBody EmpresaModel empresaCadastro)
 			throws ExecutionException, InterruptedException {
 		String msgRetorno = "";
 
 		System.out.println("Entrou no cadastrar Empresa");
-		ClienteModel clienteAtualizaQuantEmpresa = new ClienteModel();
-
-		Firestore dbEmpresaCadastradasCliente = FirestoreClient.getFirestore();
-		DocumentReference documentReferenceCliente;
-		documentReferenceCliente = dbEmpresaCadastradasCliente.collection("CLIENTES-CADASTRADOS")
-				.document(empresaCadastro.getIdentificadorCliente());
-
-		ApiFuture<DocumentSnapshot> clienteCadastraEmprsa = documentReferenceCliente.get();
-		DocumentSnapshot documentClienteReferencia = clienteCadastraEmprsa.get();
-
-		ClienteModel clienteRecuperadoBD = documentClienteReferencia.toObject(ClienteModel.class);
-
-		clienteAtualizaQuantEmpresa.setEmailCliente(clienteRecuperadoBD.getEmailCliente());
-		clienteAtualizaQuantEmpresa.setCpf(clienteRecuperadoBD.getCPF());
-		clienteAtualizaQuantEmpresa.setUsuariocliente(clienteRecuperadoBD.getUsuariocliente());
-		clienteAtualizaQuantEmpresa.setCelular(clienteRecuperadoBD.getCelular());
-		clienteAtualizaQuantEmpresa.setTelefone(clienteRecuperadoBD.getTelefone());
-		clienteAtualizaQuantEmpresa.setNome(clienteRecuperadoBD.getNome());
-		clienteAtualizaQuantEmpresa.setObs(clienteRecuperadoBD.getObs());
-		clienteAtualizaQuantEmpresa.setObs(clienteRecuperadoBD.getObs());
-		clienteAtualizaQuantEmpresa.setObs(clienteRecuperadoBD.getObs());
-		clienteAtualizaQuantEmpresa.setIdentificador(clienteRecuperadoBD.getIdentificador());
-		clienteAtualizaQuantEmpresa
-				.setQuantidadeEmpresaCadastradas(clienteRecuperadoBD.getQuantidadeEmpresaCadastradas() + 1);
-		clienteAtualizaQuantEmpresa.setStatus(clienteRecuperadoBD.getStatus());		
 		
-		
-		Firestore dbCliente = FirestoreClient.getFirestore();
+		ClienteCadastradoModel atualizaCliente = new ClienteCadastradoModel();
+		Date data = new Date();
+		SimpleDateFormat formatador = new SimpleDateFormat("dd/MM/yyy HH:ss");
+		String modified = formatador.format(data);
+		System.out.println("--------------------------------------DATA: " + modified );
 
-		dbCliente.collection("CLIENTES-CADASTRADOS").document(clienteAtualizaQuantEmpresa.getCPF())
-				.set(clienteAtualizaQuantEmpresa);
+		formatador.format( data );
 		
-		Firestore dbEmpresaCliente = FirestoreClient.getFirestore();
-		dbEmpresaCliente.collection("CLIENTES-CADASTRADOS").document(empresaCadastro.getIdentificadorCliente())
-				.collection("EMPRESAS-CLIENTE").document(empresaCadastro.getCnpj()).set(empresaCadastro);
+		try {
+			Firestore dbEmpresaCadastradasCliente = FirestoreClient.getFirestore();
+			DocumentReference documentReferenceCliente;
+			documentReferenceCliente = dbEmpresaCadastradasCliente.collection("CLIENTES-CADASTRADOS")
+					.document(empresaCadastro.getIdentificadorCliente());
 
-		return empresaCadastro;
+			ApiFuture<DocumentSnapshot> clienteCadastraEmprsa = documentReferenceCliente.get();
+			DocumentSnapshot documentClienteReferencia = clienteCadastraEmprsa.get();
+
+			ClienteCadastradoModel clienteRecuperadoBD = documentClienteReferencia.toObject(ClienteCadastradoModel.class);
+			atualizaCliente.setNome(clienteRecuperadoBD.getNome());
+			atualizaCliente.setCpf(clienteRecuperadoBD.getCpf());
+			atualizaCliente.setUsuariocliente(clienteRecuperadoBD.getUsuariocliente());
+			atualizaCliente.setEmailCliente(clienteRecuperadoBD.getEmailCliente());
+			atualizaCliente.setTelefone(clienteRecuperadoBD.getTelefone());
+			atualizaCliente.setCelular(clienteRecuperadoBD.getCelular());
+			atualizaCliente.setWhatsapp(clienteRecuperadoBD.getWhatsapp());
+			atualizaCliente.setCep(clienteRecuperadoBD.getCep());
+			atualizaCliente.setEndereco(clienteRecuperadoBD.getEndereco());
+			atualizaCliente.setComplemento(clienteRecuperadoBD.getComplemento());
+			atualizaCliente.setNumero(clienteRecuperadoBD.getNumero());
+			atualizaCliente.setEstado(clienteRecuperadoBD.getEstado());
+			atualizaCliente.setCidade(clienteRecuperadoBD.getCidade());
+			atualizaCliente.setBairro(clienteRecuperadoBD.getBairro());
+			atualizaCliente.setCreated(clienteRecuperadoBD.getCreated());
+			atualizaCliente.setModified("Empresa cadastrada " + modified);
+			atualizaCliente.setObs("Cliente Não possui observações");
+			atualizaCliente.setStatus("Status não definido");
+			atualizaCliente.setQuantidadeEmpresaCadastradas(clienteRecuperadoBD.getQuantidadeEmpresaCadastradas()+ 1);
+			
+			msgRetorno = "Quantidade atualizada com sucesso - ";
+			
+			System.out.println("-------------------------------------MSG RETORNO : " + msgRetorno );
+			
+			Firestore dbCliente = FirestoreClient.getFirestore();
+
+			dbCliente.collection("CLIENTES-CADASTRADOS").document(atualizaCliente.getCpf())
+					.set(atualizaCliente);
+			
+			Firestore dbEmpresaCliente = FirestoreClient.getFirestore();
+			dbEmpresaCliente.collection("CLIENTES-CADASTRADOS").document(empresaCadastro.getIdentificadorCliente())
+					.collection("EMPRESAS-CLIENTE").document(empresaCadastro.getCnpj()).set(empresaCadastro);
+			if(dbEmpresaCliente != null) {
+				msgRetorno += "Empresa Cadastrada com sucesso";
+				System.out.println("-------------------------------------MSG RETORNO : " + msgRetorno );
+			}
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			msgRetorno = "Não foi possível cadastrar empresa, favor verifique sua conexão e tente novamente";
+		}
+
+		
+
+		return msgRetorno;
 	}
 
 	@PostMapping("/recuperar-empresa-cliente")
