@@ -712,6 +712,71 @@ public class TesteSpringBootNudeApplication {
 	  }
 	  
 	  
+	  //ATUALIZAR USUARIO
+	  
+	  @PostMapping("/atualizar-usuario") public int atualizarUsuario(@RequestBody Usuario usuarioRecebido ) throws InterruptedException, ExecutionException {
+			 
+		  int verificaCadastro = 0;
+		  Date data = new Date();
+	        SimpleDateFormat dataFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+	        String dataModified = dataFormat.format(data);
+		  
+		   String  identificadorUsuario = usuarioRecebido.getEmail();
+		   String  nome = usuarioRecebido.getNome().toUpperCase().toString();
+		   String  nomeusuario = usuarioRecebido.getNomeusuario().toUpperCase().toString();
+		   String  email = usuarioRecebido.getEmail();
+		   String  nivelAcesso =usuarioRecebido.getNivelAcesso();
+		   
+		   
+		   String  created = usuarioRecebido.getCreated() ;
+		   String  modified = "ATUALIZAÇÃO DE DADOS CADASTRAIS EM: " + dataModified;
+		   String  quantidadeEmpresasVinculada = usuarioRecebido.getQuantidadeEmpresasVinculada();
+		   
+		   
+		   Firestore firebaseUsuario = FirestoreClient.getFirestore();
+           DocumentReference documentUsuario;
+           documentUsuario = firebaseUsuario.collection("USUARIOS-CADASTRADOS")
+                       .document(identificadorUsuario);
+
+           ApiFuture<DocumentSnapshot> documentSnapshotApiFutureCliente = documentUsuario.get();
+           DocumentSnapshot documentSnapshotCliente = documentSnapshotApiFutureCliente.get();
+           
+          
+
+           if(documentSnapshotCliente.exists()){
+        	   Usuario usuarioSalvar = new Usuario();
+        	   
+       	   	usuarioSalvar.setIdentificadorUsuaior(identificadorUsuario);        	   
+   		    usuarioSalvar.setNome(nome);
+   		    usuarioSalvar.setNomeusuario(nomeusuario);
+   		    usuarioSalvar.setEmail(email);
+   		    usuarioSalvar.setNivelAcesso(nivelAcesso);
+   		    usuarioSalvar.setCreated(created);
+   		    usuarioSalvar.setModified(modified);
+   		    usuarioSalvar.setQuantidadeEmpresasVinculada(quantidadeEmpresasVinculada);
+   		   
+   		   
+       	   Firestore firebaseUsuarioSalvar = FirestoreClient.getFirestore();
+              ApiFuture<WriteResult> documentUsuarioSalvar;
+              documentUsuarioSalvar = firebaseUsuarioSalvar.collection("USUARIOS-CADASTRADOS")
+                          .document(identificadorUsuario)
+                          .set(usuarioSalvar);
+              
+              verificaCadastro = 33;
+           }else {
+        	   verificaCadastro = 1;
+        	  
+           }
+		 
+		  
+		  
+		  return verificaCadastro;
+		  
+	  }
+	  
+	  
+	  
 	  
 	  //Lançar Saida banco
 	 
