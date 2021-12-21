@@ -63,6 +63,7 @@ import model.LancamentoSaidaModel;
 import model.RecuperaInformacaoContaCaixaEmpresa;
 import model.ServicoFornecedorModel;
 import model.UserModel;
+import models.Empresa;
 import models.Usuario;
 import service.ProductService;
 
@@ -774,6 +775,146 @@ public class TesteSpringBootNudeApplication {
 		  return verificaCadastro;
 		  
 	  }
+	  
+	  
+	  
+	  //CADASTRAR EMPRESA
+	  
+	  
+	  
+	  @PostMapping("/cadastrar-empresa") public int cadastrarEmpresa(@RequestBody Empresa empresaRecebida ) throws InterruptedException, ExecutionException {
+		  
+		 
+		  
+		  
+		  int verificaCadastro = 0;
+		  Date data = new Date();
+	        SimpleDateFormat dataFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+	        String dataCreated = dataFormat.format(data);
+		  
+	       
+	        
+	        
+	        if(empresaRecebida.getCnpj() == "") {
+				  verificaCadastro = 45;
+			  }else {
+				  String identificadorEmpresa = empresaRecebida.getCnpj();
+			        Empresa empresaSalvar = new Empresa();
+				  Firestore firebaseUsuario = FirestoreClient.getFirestore();
+		           DocumentReference documentUsuario;
+		           documentUsuario = firebaseUsuario.collection("EMPRESAS-CADASTRADAS")
+		                       .document(identificadorEmpresa);
+
+		           ApiFuture<DocumentSnapshot> documentSnapshotApiFutureCliente = documentUsuario.get();
+		           DocumentSnapshot documentSnapshotCliente = documentSnapshotApiFutureCliente.get();
+
+		           if(documentSnapshotCliente.exists()){
+		        	   verificaCadastro = 1;
+		           }else {
+		        	   
+		        	   
+		        	   
+		        	    String identificador = empresaRecebida.getCnpj()  ;
+		        	    String cnpj = empresaRecebida.getCnpj();
+		        	    String endereco = empresaRecebida.getEndereco();
+		        	    String email = empresaRecebida.getEmail();
+		        	    String cep = empresaRecebida.getCep();
+		        	    String numero = empresaRecebida.getNumero();
+		        	    String cidade = empresaRecebida.getCidade();
+		        	    String bairro = empresaRecebida.getBairro();
+		        	    String estado = empresaRecebida.getEstado();
+		        	    String complemento = empresaRecebida.getComplemento();
+		        	    String razaoSocial = empresaRecebida.getRazaoSocial();
+		        	    String nomeEmpresa = empresaRecebida.getNomeEmpresa();
+		        	    String created = dataCreated ;
+		        	    String modified = "EMPRESA CADASTRADA";
+		        	    String telefone = empresaRecebida.getTelefone();
+		        	    String celular = empresaRecebida.getCelular();
+		        	    String whatsapp = empresaRecebida.getWhatsapp();
+		        	    String saldoCaixa = empresaRecebida.getSaldoCaixa();
+		        	    String saldoBanco = empresaRecebida.getSaldoBanco();
+		        	    
+		        	    if(endereco == "") {
+		        	    	endereco = "NÃO CADASTRADO";
+		        	    }else if(cep == "") {
+		        	    	cep = "NÃO CADASTRADO";
+		        	    }else if(numero == "") {
+		        	    	numero = "NÃO CADASTRADO";
+		        	    }else if(cidade == "") {
+		        	    	cidade = "NÃO CADASTRADO";
+		        	    }else if(bairro == "") {
+		        	    	bairro = "NÃO CADASTRADO";
+		        	    }else if(estado == "") {
+		        	    	estado = "NÃO CADASTRADO";
+		        	    }else if(complemento == "") {
+		        	    	complemento = "NÃO CADASTRADO";
+		        	    }else if(telefone == "") {
+		        	    	telefone = "NÃO CADASTRADO";
+		        	    }else if(saldoCaixa == "") {
+		        	    	saldoCaixa ="0";
+		        	    }else if(saldoBanco == "") {
+		        	    	saldoBanco = "0";
+		        	    	
+		        	    	
+		        	    }else if(nomeEmpresa == "") {
+		        	    	nomeEmpresa = "NÃO CADASTRADO";
+		        	    }else if(razaoSocial == "") {
+		        	    	razaoSocial = "NÃO CADASTRADO";
+		        	    }
+		        	    	
+		        	    	
+		        	    	
+		        	    	if(cnpj == "") {
+		        	    	 
+		        	    }else {
+		        	        empresaSalvar.setIdentificador(identificadorEmpresa);
+		            	    empresaSalvar.setCnpj(cnpj);
+		            	    empresaSalvar.setEndereco(endereco);
+		            	    empresaSalvar.setEmail(email);
+		            	    empresaSalvar.setCep(cep);
+		            	    empresaSalvar.setNumero(numero);
+		            	    empresaSalvar.setCidade(cidade);
+		            	    empresaSalvar.setBairro(bairro);
+		            	    empresaSalvar.setEstado(estado);
+		            	    empresaSalvar.setComplemento(complemento);
+		            	    empresaSalvar.setRazaoSocial(razaoSocial);
+		            	    empresaSalvar.setNomeEmpresa(nomeEmpresa);
+		            	    empresaSalvar.setCreated(created);
+		            	    empresaSalvar.setSaldoCaixa(saldoCaixa);
+		            	    empresaSalvar.setSaldoBanco(saldoBanco);
+		            	    empresaSalvar.setTelefone(telefone);
+		            	    empresaSalvar.setCelular(celular);
+		            	    empresaSalvar.setModified(modified);
+		            	    empresaSalvar.setWhatsapp(whatsapp);
+		            	    empresaSalvar.setCreated(created);
+		            	     
+
+		            	
+		        		   
+		            	   Firestore firebaseEmpresaSalvar = FirestoreClient.getFirestore();
+		                   ApiFuture<WriteResult> documentEmpresaSalvar;
+		                   documentEmpresaSalvar = firebaseEmpresaSalvar.collection("EMPRESAS-CADASTRADAS")
+		                               .document(identificadorEmpresa)
+		                               .set(empresaSalvar);
+		                   
+		                   verificaCadastro = 33;
+		        	    }
+		        	    
+		        	    
+		        	
+		           }  
+			  }
+		   
+		 
+		 
+		  
+		  
+		  return verificaCadastro;
+		  
+	  }
+	  
+	  
 	  
 	  
 	  
